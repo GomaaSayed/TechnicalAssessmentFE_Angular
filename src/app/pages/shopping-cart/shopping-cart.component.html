@@ -1,0 +1,62 @@
+<div class="container mt-5">
+  <h2>Your Shopping Cart</h2>
+
+  <!-- If the cart is empty, display this message -->
+  <div *ngIf="cartItems.length === 0" class="alert alert-info">
+    Your cart is empty.
+  </div>
+
+  <!-- Table to display cart items -->
+  <table *ngIf="cartItems.length > 0" class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Product</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of cartItems">
+        <td>{{ item.name }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.price }}</td>
+
+        <!-- Input for updating quantity -->
+        <td>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="item.quantity"
+            (change)="updateQuantity(item, item.quantity)"
+            min="1"
+          />
+        </td>
+
+        <!-- Display total price for each item -->
+        <td>{{ item.price * item.quantity }}</td>
+
+        <!-- Button to remove the product from the cart -->
+        <td>
+          <button class="btn btn-danger" (click)="removeFromCart(item)">
+            Remove
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Display the total price under the table -->
+  <div *ngIf="cartItems.length > 0" class="mt-4">
+    <h3>Total: {{ getTotalPrice() }}</h3>
+  </div>
+  <!-- Button to clear the entire cart -->
+  <button
+    *ngIf="cartItems.length > 0"
+    class="btn btn-warning"
+    (click)="clearCart()"
+  >
+    Clear Cart
+  </button>
+</div>

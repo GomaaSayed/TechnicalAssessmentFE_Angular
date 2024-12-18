@@ -1,0 +1,307 @@
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Manage Products</h2>
+  <!-- جدول عرض المنتجات -->
+  <div class="card p-4">
+    <div class="row">
+      <div class="col-md-12">
+        <h3 class="mb-3">Products List</h3>
+        <!-- Product Table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Category</th>
+              <th>Is Visible</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let product of products">
+              <!-- Name Column -->
+              <td *ngIf="editingProductId !== product.id">
+                {{ product.name }}
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <input
+                  [(ngModel)]="product.name"
+                  placeholder="Name"
+                  class="form-control"
+                />
+              </td>
+
+              <!-- Description Column -->
+              <td *ngIf="editingProductId !== product.id">
+                {{ product.description }}
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <input
+                  [(ngModel)]="product.description"
+                  placeholder="Description"
+                  class="form-control"
+                />
+              </td>
+
+              <!-- Price Column -->
+              <td *ngIf="editingProductId !== product.id">
+                {{ product.price | currency }}
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <input
+                  [(ngModel)]="product.price"
+                  type="number"
+                  placeholder="Price"
+                  class="form-control"
+                />
+              </td>
+
+              <!-- Quantity Column -->
+              <td *ngIf="editingProductId !== product.id">
+                {{ product.quantity }}
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <input
+                  [(ngModel)]="product.quantity"
+                  type="number"
+                  placeholder="Quantity"
+                  class="form-control"
+                />
+              </td>
+
+              <!-- Category Column -->
+              <td *ngIf="editingProductId !== product.id">
+                {{ product.categoryName }}
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <select [(ngModel)]="product.categoryId" class="form-control">
+                  <option value="" selected disabled>Select Category</option>
+                  <option
+                    *ngFor="let category of categories"
+                    [value]="category.id"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+              </td>
+
+              <!-- Visibility Column -->
+              <td *ngIf="editingProductId !== product.id">
+                <div class="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="isVisible"
+                    [(ngModel)]="product.isVisible"
+                    disabled
+                  />
+                  <label class="form-check-label" for="isVisible">
+                    Is Visible
+                  </label>
+                </div>
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <div class="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="isVisible"
+                    [(ngModel)]="product.isVisible"
+                  />
+                  <label class="form-check-label" for="isVisible">
+                    Is Visible
+                  </label>
+                </div>
+              </td>
+
+              <!-- Image Column -->
+              <td *ngIf="editingProductId !== product.id">
+                <img
+                  [src]="config.productImagesUrl + product.imageUrl"
+                  alt="Product Image"
+                  width="50"
+                  height="50"
+                />
+              </td>
+              <td *ngIf="editingProductId === product.id">
+                <input
+                  [value]="product.imageUrl"
+                  class="form-control"
+                  disabled
+                />
+              </td>
+
+              <!-- Actions Column -->
+              <td>
+                <button
+                  class="btn btn-sm btn-warning"
+                  *ngIf="editingProductId !== product.id"
+                  (click)="editProductInline(product.id)"
+                >
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+                <button
+                  *ngIf="editingProductId === product.id"
+                  class="btn btn-sm btn-success"
+                  (click)="saveProductInline(product.id)"
+                >
+                  <i class="bi bi-check-circle"></i> Save
+                </button>
+                <button
+                  *ngIf="editingProductId === product.id"
+                  class="btn btn-sm btn-secondary"
+                  (click)="cancelEdit(product.id)"
+                >
+                  <i class="bi bi-x-circle"></i> Cancel
+                </button>
+                <button
+                  class="btn btn-sm btn-danger"
+                  *ngIf="editingProductId !== product.id"
+                  (click)="confirmDelete(product.id)"
+                >
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+
+            <!-- Inline Add New Product -->
+            <tr *ngIf="editingProductId === null && newProduct">
+              <td>
+                <input
+                  [(ngModel)]="products[products.length - 1].name"
+                  placeholder="Product Name"
+                  class="form-control"
+                />
+              </td>
+              <td>
+                <input
+                  [(ngModel)]="products[products.length - 1].description"
+                  placeholder="Description"
+                  class="form-control"
+                />
+              </td>
+              <td>
+                <input
+                  [(ngModel)]="products[products.length - 1].price"
+                  type="number"
+                  placeholder="Price"
+                  class="form-control"
+                />
+              </td>
+              <td>
+                <input
+                  [(ngModel)]="products[products.length - 1].quantity"
+                  type="number"
+                  placeholder="Quantity"
+                  class="form-control"
+                />
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [(ngModel)]="products[products.length - 1].isVisible"
+                  />
+                  <label class="form-check-label"> Is Visible </label>
+                </div>
+              </td>
+              <td>
+                <select
+                  [(ngModel)]="products[products.length - 1].categoryName"
+                  class="form-control"
+                >
+                  <option value="" selected disabled>Select Category</option>
+                  <option
+                    *ngFor="let category of categories"
+                    [value]="category.id"
+                  >
+                    {{ category.name }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input
+                  [value]="'images/products/test-product.JPG'"
+                  class="form-control"
+                  disabled
+                />
+              </td>
+              <td>
+                <button
+                  class="btn btn-sm btn-success"
+                  (click)="saveProductInline(products[products.length - 1].id)"
+                >
+                  <i class="bi bi-check-circle"></i> Save
+                </button>
+                <button
+                  class="btn btn-sm btn-secondary"
+                  (click)="cancelEdit(products[products.length - 1].id)"
+                >
+                  <i class="bi bi-x-circle"></i> Cancel
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-12">
+        <!-- Add Product Button -->
+        <button
+          class="btn btn-success mb-3"
+          *ngIf="editingProductId === null && !newProduct"
+          (click)="addProductInline()"
+        >
+          <i class="bi bi-plus-circle"></i> Add Product
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Alert Component -->
+<app-alert
+  *ngIf="alertMessage"
+  [message]="alertMessage"
+  [type]="alertType"
+  [autoDismiss]="true"
+  [dismissTime]="3000"
+></app-alert>
+
+<!-- Confirm Delete Modal -->
+<div
+  class="modal fade"
+  id="deleteConfirmModal"
+  tabindex="-1"
+  aria-labelledby="deleteConfirmModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteConfirmModalLabel">
+          <i class="bi bi-exclamation-circle"></i> Delete Confirmation
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this product?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="bi bi-x-circle"></i> Cancel
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteProduct()">
+          <i class="bi bi-trash"></i> Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

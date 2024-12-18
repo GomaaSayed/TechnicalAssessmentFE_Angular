@@ -1,0 +1,45 @@
+<div class="container mt-5">
+  <div class="row">
+    <!-- Loop through products and display each in a small card -->
+    <div
+      class="col-sm-6 col-md-4 col-lg-3 mb-4"
+      *ngFor="let product of products"
+    >
+      <div class="card shadow-sm border-light">
+        <!-- Product Image -->
+        <img
+          [src]="config.productImagesUrl + product.imageUrl"
+          class="card-img-top"
+          alt="product image"
+          style="max-height: 150px; object-fit: cover"
+        />
+
+        <div class="card-body">
+          <!-- Product Name -->
+          <h6 class="card-title" style="font-size: 1rem">{{ product.name }}</h6>
+          <!-- categoryName -->
+          <p class="card-text" style="font-size: 0.9rem; overflow: hidden">
+            {{ product.categoryName }}
+          </p>
+          <!-- Product Description -->
+          <p class="card-text" style="font-size: 0.9rem; overflow: hidden">
+            {{ product.description }}
+          </p>
+
+          <!-- Product Price -->
+          <p class="card-text" style="font-size: 1rem">
+            <strong>Price:</strong> {{ product.price }}
+          </p>
+
+          <!-- Add to Cart Button with FontAwesome Icon -->
+          <button
+            class="btn btn-primary d-flex align-items-center btn-sm"
+            (click)="addToCart(product)"
+          >
+            <i class="fas fa-cart-plus me-2"></i> Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
