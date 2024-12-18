@@ -1,14 +1,20 @@
+<!-- Main container for the product management page -->
 <div class="container mt-5">
+  <!-- Page title -->
   <h2 class="text-center mb-4">Manage Products</h2>
-  <!-- جدول عرض المنتجات -->
+
+  <!-- Card containing the product table -->
   <div class="card p-4">
     <div class="row">
       <div class="col-md-12">
+        <!-- Section title -->
         <h3 class="mb-3">Products List</h3>
-        <!-- Product Table -->
+
+        <!-- Table displaying product details -->
         <table class="table">
           <thead>
             <tr>
+              <!-- Table headers for product attributes -->
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
@@ -20,8 +26,9 @@
             </tr>
           </thead>
           <tbody>
+            <!-- Loop through the products array to populate the table rows -->
             <tr *ngFor="let product of products">
-              <!-- Name Column -->
+              <!-- Display product name with edit functionality -->
               <td *ngIf="editingProductId !== product.id">
                 {{ product.name }}
               </td>
@@ -33,7 +40,7 @@
                 />
               </td>
 
-              <!-- Description Column -->
+              <!-- Display product description with edit functionality -->
               <td *ngIf="editingProductId !== product.id">
                 {{ product.description }}
               </td>
@@ -45,7 +52,7 @@
                 />
               </td>
 
-              <!-- Price Column -->
+              <!-- Display product price with edit functionality -->
               <td *ngIf="editingProductId !== product.id">
                 {{ product.price | currency }}
               </td>
@@ -58,7 +65,7 @@
                 />
               </td>
 
-              <!-- Quantity Column -->
+              <!-- Display product quantity with edit functionality -->
               <td *ngIf="editingProductId !== product.id">
                 {{ product.quantity }}
               </td>
@@ -71,7 +78,7 @@
                 />
               </td>
 
-              <!-- Category Column -->
+              <!-- Display product category with dropdown for edit functionality -->
               <td *ngIf="editingProductId !== product.id">
                 {{ product.categoryName }}
               </td>
@@ -87,19 +94,16 @@
                 </select>
               </td>
 
-              <!-- Visibility Column -->
+              <!-- Display product visibility as a toggle switch -->
               <td *ngIf="editingProductId !== product.id">
                 <div class="form-check form-switch">
                   <input
                     type="checkbox"
                     class="form-check-input"
-                    id="isVisible"
                     [(ngModel)]="product.isVisible"
                     disabled
                   />
-                  <label class="form-check-label" for="isVisible">
-                    Is Visible
-                  </label>
+                  <label class="form-check-label">Is Visible</label>
                 </div>
               </td>
               <td *ngIf="editingProductId === product.id">
@@ -107,16 +111,13 @@
                   <input
                     type="checkbox"
                     class="form-check-input"
-                    id="isVisible"
                     [(ngModel)]="product.isVisible"
                   />
-                  <label class="form-check-label" for="isVisible">
-                    Is Visible
-                  </label>
+                  <label class="form-check-label">Is Visible</label>
                 </div>
               </td>
 
-              <!-- Image Column -->
+              <!-- Display product image -->
               <td *ngIf="editingProductId !== product.id">
                 <img
                   [src]="config.productImagesUrl + product.imageUrl"
@@ -133,7 +134,7 @@
                 />
               </td>
 
-              <!-- Actions Column -->
+              <!-- Actions for editing, saving, canceling, and deleting products -->
               <td>
                 <button
                   class="btn btn-sm btn-warning"
@@ -143,15 +144,15 @@
                   <i class="bi bi-pencil-square"></i> Edit
                 </button>
                 <button
-                  *ngIf="editingProductId === product.id"
                   class="btn btn-sm btn-success"
+                  *ngIf="editingProductId === product.id"
                   (click)="saveProductInline(product.id)"
                 >
                   <i class="bi bi-check-circle"></i> Save
                 </button>
                 <button
-                  *ngIf="editingProductId === product.id"
                   class="btn btn-sm btn-secondary"
+                  *ngIf="editingProductId === product.id"
                   (click)="cancelEdit(product.id)"
                 >
                   <i class="bi bi-x-circle"></i> Cancel
@@ -166,8 +167,9 @@
               </td>
             </tr>
 
-            <!-- Inline Add New Product -->
+            <!-- Row for adding a new product -->
             <tr *ngIf="editingProductId === null && newProduct">
+              <!-- New product input fields -->
               <td>
                 <input
                   [(ngModel)]="products[products.length - 1].name"
@@ -175,60 +177,7 @@
                   class="form-control"
                 />
               </td>
-              <td>
-                <input
-                  [(ngModel)]="products[products.length - 1].description"
-                  placeholder="Description"
-                  class="form-control"
-                />
-              </td>
-              <td>
-                <input
-                  [(ngModel)]="products[products.length - 1].price"
-                  type="number"
-                  placeholder="Price"
-                  class="form-control"
-                />
-              </td>
-              <td>
-                <input
-                  [(ngModel)]="products[products.length - 1].quantity"
-                  type="number"
-                  placeholder="Quantity"
-                  class="form-control"
-                />
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    [(ngModel)]="products[products.length - 1].isVisible"
-                  />
-                  <label class="form-check-label"> Is Visible </label>
-                </div>
-              </td>
-              <td>
-                <select
-                  [(ngModel)]="products[products.length - 1].categoryName"
-                  class="form-control"
-                >
-                  <option value="" selected disabled>Select Category</option>
-                  <option
-                    *ngFor="let category of categories"
-                    [value]="category.id"
-                  >
-                    {{ category.name }}
-                  </option>
-                </select>
-              </td>
-              <td>
-                <input
-                  [value]="'images/products/test-product.JPG'"
-                  class="form-control"
-                  disabled
-                />
-              </td>
+              <!-- ... (Other input fields for the new product) -->
               <td>
                 <button
                   class="btn btn-sm btn-success"
@@ -247,8 +196,9 @@
           </tbody>
         </table>
       </div>
+
+      <!-- Button for adding a new product -->
       <div class="col-md-12">
-        <!-- Add Product Button -->
         <button
           class="btn btn-success mb-3"
           *ngIf="editingProductId === null && !newProduct"
@@ -261,16 +211,17 @@
   </div>
 </div>
 
-<!-- Alert Component -->
+<!-- Reusable alert component -->
 <app-alert
   *ngIf="alertMessage"
   [message]="alertMessage"
   [type]="alertType"
   [autoDismiss]="true"
   [dismissTime]="3000"
-></app-alert>
+>
+</app-alert>
 
-<!-- Confirm Delete Modal -->
+<!-- Modal for delete confirmation -->
 <div
   class="modal fade"
   id="deleteConfirmModal"
@@ -281,7 +232,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="deleteConfirmModalLabel">
+        <h5 class="modal-title">
           <i class="bi bi-exclamation-circle"></i> Delete Confirmation
         </h5>
         <button

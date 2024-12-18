@@ -1,12 +1,13 @@
 <div class="container mt-5">
+  <!-- Page Title -->
   <h2 class="text-center mb-4">Manage Products</h2>
 
-  <!-- زر لإضافة منتج -->
+  <!-- Button to open the Add Product modal -->
   <button class="btn btn-success mb-3" (click)="openProductModal('add')">
     <i class="bi bi-plus-circle"></i> Add Product
   </button>
 
-  <!-- جدول عرض المنتجات -->
+  <!-- Product List Table -->
   <div class="card p-4">
     <h3 class="mb-3">Products List</h3>
     <table class="table table-striped">
@@ -22,6 +23,7 @@
         </tr>
       </thead>
       <tbody>
+        <!-- Loop through the products and display each product -->
         <tr *ngFor="let product of products">
           <td>{{ product.name }}</td>
           <td>{{ product.description }}</td>
@@ -29,6 +31,7 @@
           <td>{{ product.quantity }}</td>
           <td>{{ product.categoryName }}</td>
 
+          <!-- Display Product Image -->
           <td>
             <img
               [src]="config.productImagesUrl + product.imageUrl"
@@ -38,7 +41,7 @@
             />
           </td>
 
-          <!-- Display Category Name -->
+          <!-- Action Buttons: Edit and Delete -->
           <td>
             <button
               class="btn btn-sm btn-warning"
@@ -58,7 +61,7 @@
     </table>
   </div>
 
-  <!-- نافذة منبثقة لإضافة أو تعديل المنتج -->
+  <!-- Modal for Adding or Editing Products -->
   <div
     class="modal fade"
     id="productModal"
@@ -67,9 +70,10 @@
     aria-hidden="true"
   >
     <div class="modal-dialog modal-lg">
-      <!-- فئة modal-lg لجعلها كبيرة -->
+      <!-- Modal Content -->
       <div class="modal-content">
         <div class="modal-header">
+          <!-- Modal Title: Dynamic based on Add or Edit mode -->
           <h5 class="modal-title" id="productModalLabel">
             {{ isEditMode ? "Edit Product" : "Add Product" }}
           </h5>
@@ -81,9 +85,10 @@
           ></button>
         </div>
         <div class="modal-body">
+          <!-- Product Form -->
           <form [formGroup]="productForm">
             <div class="row">
-              <!-- Dropdown for Category -->
+              <!-- Dropdown for selecting Category -->
               <div class="col-md-6 mb-3">
                 <label for="categoryId" class="form-label">Category</label>
                 <select
@@ -92,6 +97,7 @@
                   formControlName="categoryId"
                 >
                   <option value="" selected disabled>Select Category</option>
+                  <!-- Loop through categories and display them as options -->
                   <option
                     *ngFor="let category of categories"
                     [value]="category.id"
@@ -99,6 +105,7 @@
                     {{ category.name }}
                   </option>
                 </select>
+                <!-- Validation Error Message -->
                 <div
                   *ngIf="productForm.get('categoryId')?.invalid"
                   class="invalid-feedback"
@@ -106,6 +113,8 @@
                   Category is required.
                 </div>
               </div>
+
+              <!-- Input for Product Name -->
               <div class="col-md-6 mb-3">
                 <label for="name" class="form-label">Product Name</label>
                 <input
@@ -117,6 +126,7 @@
                 />
               </div>
 
+              <!-- Input for Price -->
               <div class="col-md-6 mb-3">
                 <label for="price" class="form-label">Price</label>
                 <input
@@ -127,6 +137,8 @@
                   placeholder="Enter price"
                 />
               </div>
+
+              <!-- Input for Quantity -->
               <div class="col-md-6 mb-3">
                 <label for="quantity" class="form-label">Quantity</label>
                 <input
@@ -137,6 +149,8 @@
                   placeholder="Enter quantity"
                 />
               </div>
+
+              <!-- Input for Description -->
               <div class="col-md-12 mb-3">
                 <label for="description" class="form-label">Description</label>
                 <textarea
@@ -147,6 +161,8 @@
                   placeholder="Enter description"
                 ></textarea>
               </div>
+
+              <!-- Checkbox for Visibility -->
               <div class="col-md-12 mb-3">
                 <div class="form-check form-switch mb-3">
                   <input
@@ -164,6 +180,7 @@
           </form>
         </div>
         <div class="modal-footer">
+          <!-- Buttons to Close or Save the Product -->
           <button
             type="button"
             class="btn btn-secondary"
@@ -185,7 +202,7 @@
   </div>
 </div>
 
-<!-- تأكيد حذف المنتج -->
+<!-- Confirmation Modal for Deleting a Product -->
 <div
   class="modal fade"
   id="deleteConfirmModal"
@@ -210,6 +227,7 @@
         Are you sure you want to delete this product?
       </div>
       <div class="modal-footer">
+        <!-- Buttons to Cancel or Confirm Deletion -->
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
           <i class="bi bi-x-circle"></i> Cancel
         </button>
@@ -221,6 +239,7 @@
   </div>
 </div>
 
+<!-- Alert Component -->
 <app-alert
   *ngIf="alertMessage"
   [message]="alertMessage"
